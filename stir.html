@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stir — Food Scandals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="simple.css">
+  <style>
+
+  </style>
+</head>
+<body>
+
+  <!-- ─── HEADER ─── -->
+  <header>
+    <h1><span>Food</span> Scandals</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="collection.html">Collection</a>
+      <a href="stir.html" aria-current="page">Stir</a>
+      <a href="spill.html">Spill</a>
+    </nav>
+  </header>
+
+  <!-- ─── MAIN ─── -->
+  <main>
+    <div class="stir-intro">
+      <h2>Stir the Pot</h2>
+      <p>Click the pot to stir up a scandal.</p>
+    </div>
+
+    <!-- THE POT -->
+    <div
+      class="pot-scene"
+      id="potScene"
+      role="button"
+      tabindex="0"
+      aria-label="Click to stir the pot and reveal a scandal"
+      onclick="stirPot()"
+      onkeydown="if(event.key==='Enter'||event.key===' ')stirPot()"
+    >
+      <svg id="pot-svg" viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+        <!-- steam wisps -->
+        <g id="steam" opacity="0.5">
+          <path d="M120 60 Q115 48 120 36 Q125 24 120 12" fill="none" stroke="#c4a882" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M160 55 Q155 43 160 31 Q165 19 160 7"  fill="none" stroke="#c4a882" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M200 60 Q195 48 200 36 Q205 24 200 12" fill="none" stroke="#c4a882" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+
+        <!-- pot handles -->
+        <rect x="44" y="92" width="28" height="18" rx="9" fill="#7a3d10" stroke="#5a2d08" stroke-width="1.5"/>
+        <rect x="248" y="92" width="28" height="18" rx="9" fill="#7a3d10" stroke="#5a2d08" stroke-width="1.5"/>
+
+        <!-- pot body -->
+        <path d="M68 98 L252 98 Q268 98 270 114 L262 188 Q260 202 244 204 L76 204 Q60 202 58 188 L50 114 Q48 98 68 98 Z"
+              fill="url(#potGrad)" stroke="#5a2d08" stroke-width="2"/>
+
+        <!-- pot rim -->
+        <rect x="60" y="88" width="200" height="18" rx="6" fill="#9c5520" stroke="#7a3d10" stroke-width="1.5"/>
+
+        <!-- liquid surface -->
+        <ellipse cx="160" cy="98" rx="94" ry="10" fill="#8b6914" opacity="0.85"/>
+
+        <!-- bubbles on surface -->
+        <circle class="bubble1" cx="130" cy="148" r="3" fill="#c9932a" opacity="0.6"/>
+        <circle class="bubble2" cx="160" cy="152" r="2" fill="#c9932a" opacity="0.4"/>
+        <circle class="bubble3" cx="190" cy="146" r="3" fill="#c9932a" opacity="0.6"/>
+
+        <!-- spoon group — rotates around pot center -->
+        <g id="spoon-group">
+          <!-- spoon handle -->
+          <rect x="156" y="30" width="8" height="90" rx="4" fill="#d4a857" stroke="#b8891a" stroke-width="1"/>
+          <!-- spoon bowl -->
+          <ellipse cx="160" cy="122" rx="12" ry="8" fill="#e8c06a" stroke="#b8891a" stroke-width="1"/>
+        </g>
+
+        <!-- pot shine -->
+        <ellipse cx="100" cy="140" rx="10" ry="28" fill="white" opacity="0.07" transform="rotate(-15 100 140)"/>
+
+        <defs>
+          <linearGradient id="potGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#7a3d10"/>
+            <stop offset="40%"  stop-color="#9c5520"/>
+            <stop offset="100%" stop-color="#6b3010"/>
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <p class="stir-hint" id="stirHint">☝ click to stir</p>
+      <p class="stir-count" id="stirCount"></p>
+    </div>
+
+    <!-- SCANDAL POPUP -->
+    <div class="scandal-popup" id="scandalPopup" aria-live="polite">
+      <div class="popup-header" id="popupHeader">Food Scandals · Debacle File</div>
+      <div class="popup-food"  id="popupFood"></div>
+      <div class="popup-text"  id="popupText"></div>
+      <a class="popup-link"    id="popupLink" href="#" target="_blank" rel="noopener noreferrer">Read more</a>
+    </div>
+
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+  	<p>Website made by comedian, <a href="about.html">Sidikha Ashraf</a>.</p>
+  </footer>
+
+  <script>
+    // ── ALL SCANDALS (one entry per scandal link across all cards) ──
+    const scandals = [
+      { food: "Apple",          text: "Someone ate an apple and therefore we are all aware of the human capability to sin.",                                                                                     url: "https://en.wikipedia.org/wiki/Adam_and_Eve" },
+      { food: "Congee",         text: "A White woman claimed she modernized congee for the western palate.",                                                                                                     url: "https://www.nbcnews.com/news/asian-america/white-woman-making-improved-congee-apologizes-continues-sales-n1274718" },
+      { food: "Cookie",         text: "Someone gave this mouse a cookie and chaos ensued. Who fed that mouse? I'd like to speak with them.",                                                                     url: "https://en.wikipedia.org/wiki/If_You_Give_a_Mouse_a_Cookie" },
+      { food: "Chowder",        text: "Somebody spiked the chowder on the Titanic set with PCP. One of the greatest mysteries in film history.",                                                                url: "https://www.theguardian.com/lifeandstyle/2024/apr/16/the-titanic-drug-poisoning-is-one-of-the-greatest-mysteries-in-film-history-about-to-be-solved" },
+      { food: "Cheesecake",     text: "Was New York Cheesecake invented in Florida? A cast of characters debates in court.",                                                                                     url: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html" },
+      { food: "Milkshake",      text: "A Shake Shack manager sued cops who claimed he tainted their milkshakes.",                                                                                                url: "https://www.grubstreet.com/2021/06/shake-shack-manager-sues-cops-over-tainted-milkshake-claims.html" },
+      { food: "Milkshake",      text: "Apparently this girl's milkshake brings all the boys to the yard and they're saying it's better than yours.",                                                             url: "https://youtu.be/pGL2rytTraA?si=IuaoA7XlwFd0CGP6" },
+      { food: "Molasses",       text: "A lot of people died because of this Massachusetts molasses flood. RIP.",                                                                                                 url: "https://en.wikipedia.org/wiki/Great_Molasses_Flood" },
+      { food: "Milk",           text: "Don't cry over spilled milk they say — but how many kids actually cry about spilled milk in a year? A data visualization only I asked for and will never get.",          url: "https://en.wikipedia.org/wiki/It_Looked_Like_Spilt_Milk" },
+      { food: "Curry Leaves",   text: "Scholarly research on the racialization of curry leaves and South Asian ingredients in the Western world.",                                                               url: "https://escholarship.org/uc/item/7hr5p0fj" },
+      { food: "Mustard Oil",    text: "Scholarly article that includes info on the racialization of mustard oil.",                                                                                               url: "https://escholarship.org/uc/item/7hr5p0fj" },
+      { food: "Turmeric",       text: "Researchers tried to patent turmeric — like as if a culture hadn't been using it for thousands of years already.",                                                        url: "https://escholarship.org/uc/item/7hr5p0fj" },
+      { food: "Salsa",          text: "IBS is not a crime, yet this man tried to sue Los Tacos No. 1 for not putting a spicy warning on the menu.",                                                             url: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce" },
+      { food: "Subway Tuna",    text: "A lawsuit claimed Subway's tuna sandwiches contained no actual tuna. A lab could not identify any tuna DNA.",                                                             url: "https://www.nbcnews.com/news/us-news/lawsuit-claims-subway-s-tuna-sandwiches-contain-no-tuna-n1256181" },
+      { food: "Pizza",          text: "Theories around Chuck E. Cheese's suspiciously uneven, mismatched pizza slices.",                                                                                         url: "https://www.reddit.com/r/conspiracytheories/comments/apo5rg/the_chuck_e_cheese_conspiracy/" },
+      { food: "Tomatoes",       text: "Not a murder scene — just a highway full of crushed tomatoes that fell out of a truck.",                                                                                  url: "https://www.nytimes.com/2022/08/29/us/tomato-truck-crash-california.html" },
+      { food: "Basmati Rice",   text: "A lengthy, hilarious lawsuit over who really owns the name basmati rice.",                                                                                                url: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html" },
+    ];
+
+    let lastIndex = -1;
+    let stirCount = 0;
+    let isAnimating = false;
+
+    function stirPot() {
+      if (isAnimating) return;
+      isAnimating = true;
+      stirCount++;
+
+      // spin the spoon
+      const spoon = document.getElementById('spoon-group');
+      spoon.classList.remove('stirring');
+      void spoon.offsetWidth; // force reflow to restart animation
+      spoon.classList.add('stirring');
+
+      // update hint + count
+      document.getElementById('stirHint').textContent = '☝ stir again for more';
+      document.getElementById('stirCount').textContent = `stirred ${stirCount} time${stirCount === 1 ? '' : 's'}`;
+
+      // pick a scandal — avoid repeating the last one
+      let idx;
+      do { idx = Math.floor(Math.random() * scandals.length); }
+      while (idx === lastIndex && scandals.length > 1);
+      lastIndex = idx;
+
+      const scandal = scandals[idx];
+
+      // hide popup briefly then show with new content
+      const popup = document.getElementById('scandalPopup');
+      popup.classList.remove('visible');
+
+      setTimeout(() => {
+        document.getElementById('popupFood').textContent = scandal.food;
+        document.getElementById('popupText').textContent = scandal.text;
+        const link = document.getElementById('popupLink');
+        link.href = scandal.url;
+        popup.classList.add('visible');
+        isAnimating = false;
+      }, 350);
+
+      // remove stirring class after animation ends
+      spoon.addEventListener('animationend', () => {
+        spoon.classList.remove('stirring');
+      }, { once: true });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Spill-Food Scandals</title>
+		<!--<link rel="stylesheet" href="css/simple.css"> -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+  		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet">
+  		<link rel="stylesheet" href="simple.css">
+	</head>
+
+	<body>
+		<!--Header-->
+		<header>
+			<!--need nav menu here-->
+			<h1><span>Food</span> Scandals</h1>
+			<nav>
+				<a href="index.html">Home</a>
+				<a href="about.html">About</a>
+                <a href="collection.html">Collection</a>
+                <a href="stir.html">Stir</a>
+				<a href="spill.html"aria-current="page">Spill</a>
+			</nav>
+		</header>
+		
+		<main>
+			<div class="home-intro">
+				<h2>Spill</h2>
+				<p>Know a funny or downright messy and outrageous food scandal that isn't featured on this site yet? Well then, spill the tea! </p>
+			</div>
+			
+			<div class="contact-card">
+      		<div class="contact-card-header">Food Scandals · Contact Form</div>
+
+      		<!-- FORM -->
+     		 <form id="contactForm" novalidate>
+
+        	<div class="field">
+          		<label for="name">Your Name</label>
+          		<input
+            		type="text"
+            		id="name"
+            		name="name"
+            		placeholder="e.g. Julia Child"
+            		autocomplete="name"
+           			required
+				>
+        		</div>
+
+        	<div class="field">
+          		<label for="email">Your Email</label>
+          		<input
+           			type="email"
+            		id="email"
+            		name="email"
+            		placeholder="e.g. julia@example.com"
+            		autocomplete="email"
+            		required
+				>
+        	</div>
+
+        	<div class="field">
+          		<label for="subject">What's This About?</label>
+          		<select id="subject" name="subject">
+            	<option value="">— Pick one —</option>
+            	<option value="tip">I have a food scandal tip</option>
+            	<option value="correction">I have a correction</option>
+            	<option value="collab">I want to collaborate</option>
+            	<option value="other">Something else entirely</option>
+          		</select>
+        	</div>
+
+       		<div class="field">
+          		<label for="message">Your Message</label>
+          		<textarea
+            	id="message"
+            	name="message"
+            	placeholder="Tell me everything…"
+            	required
+          		></textarea>
+        	</div>
+
+        	<button type="submit" class="submit-btn">Send It ↗</button>
+
+        	<p class="form-note">No spam. Just scandals, please.</p>
+      		</form>
+
+      <!-- SUCCESS MESSAGE (shown after submit) -->
+      <div class="success-msg" id="successMsg">
+        <p>Message received. ☕</p>
+        <p>Thanks for spilling — I'll be in touch if the tea is hot enough.</p>
+      </div>
+
+    	</div>
+		</main>
+
+		<!-- ─── FOOTER ─── -->
+		<footer>
+			<p>Website made by comedian, <a href="about.html">Sidikha Ashraf</a>.</p>
+		</footer>
+		
+	</body>
+</html>

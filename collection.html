@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection — Food Scandals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="simple.css">
+  <style>
+    /* ─── CORKBOARD PAGE ─────────────────────────────────── */
+
+    /* override main to not center — let corkboard fill the page */
+    main {
+      display: block;
+      padding: 0;
+      min-height: unset;
+    }
+
+    .collection-intro {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+    }
+
+    .collection-intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: var(--rust);
+      margin-bottom: 0.4rem;
+    }
+
+    .collection-intro p {
+      font-size: 0.9rem;
+      color: #6b5c40;
+      font-style: italic;
+    }
+
+    /* ── CORKBOARD ── */
+    .corkboard {
+      /* cork texture using layered radial gradients */
+      background-color: #c4924a;
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(180,120,50,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(140,85,30,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(200,150,80,0.2) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.6' fill='rgba(100,60,10,0.12)'/%3E%3Ccircle cx='3' cy='3' r='0.4' fill='rgba(160,100,30,0.1)'/%3E%3C/svg%3E");
+      border-top: 6px solid #8b5e23;
+      border-bottom: 6px solid #8b5e23;
+      padding: 3rem 2rem 4rem;
+      /* grid layout */
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2.5rem 2rem;
+      position: relative;
+    }
+
+    /* ── PINNED CARD ── */
+    .pinned-card {
+      position: relative;
+      cursor: pointer;
+      /* each card gets a slight random tilt via inline style set by JS */
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pinned-card:hover {
+      transform: rotate(0deg) translateY(-6px) scale(1.03) !important;
+      box-shadow: 6px 12px 28px rgba(0,0,0,0.35) !important;
+      z-index: 10;
+    }
+
+    /* pushpin */
+    .pin {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+    }
+
+    /* pin stem */
+    .pin::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 1px;
+    }
+
+    /* override index-card's tray flex sizing so it fills the grid column */
+    .pinned-card .index-card {
+      flex: unset;
+      width: 100%;
+      height: var(--card-h);
+      scroll-snap-align: unset;
+      cursor: pointer;
+    }
+
+    /* ── TAPE variant — some cards use tape instead of pin ── */
+    .tape {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 52px;
+      height: 18px;
+      background: rgba(255, 240, 180, 0.65);
+      border: 1px solid rgba(200,180,100,0.4);
+      z-index: 3;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .corkboard {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 2rem 1.2rem;
+        padding: 2.5rem 1rem 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HEADER ─── -->
+  <header>
+    <h1><span>Food</span> Scandals</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="collection.html" aria-current="page">Collection</a>
+      <a href="stir.html">Stir</a>
+      <a href="spill.html">Spill</a>
+    </nav>
+  </header>
+
+  <!-- ─── MAIN ─── -->
+  <main>
+    <div class="collection-intro">
+      <h2>The Collection</h2>
+      <p>All the debacle files, pinned up for your perusal.</p>
+    </div>
+
+    <!-- CORKBOARD -->
+    <div class="corkboard" id="corkboard" role="list">
+      <!-- cards injected by JS -->
+    </div>
+  </main>
+
+  <!-- ─── EXPANDED CARD OVERLAY (same as index.html) ─── -->
+  <div class="card-overlay" id="cardOverlay" role="dialog" aria-modal="true" aria-labelledby="expandedTitle">
+    <div class="card-expanded" id="cardExpanded">
+      <div class="expanded-header">
+        <span class="expanded-label">Food Scandals · Debacle File</span>
+        <button class="close-btn" onclick="closeCard()" aria-label="Close card">✕</button>
+      </div>
+      <div class="expanded-body" id="expandedBody">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+			<p>Website made by comedian, <a href="about.html">Sidikha Ashraf</a>.</p>
+  </footer>
+
+  <script>
+    // ── FOOD DATA (copied from index.html) ────────────────
+    const foods = [
+      {name: "Apple",
+        category: ["Culture"],
+        desc: "The original food scandal in abrahamic faiths is that time someone ate an apple.",
+        scandals: [{
+          linkText: "Someone ate an apple and therefore we are all aware of the human capability to sin.",
+          linkUrl: "https://en.wikipedia.org/wiki/Adam_and_Eve"
+        }]},
+      {name: "Banana",
+        category: ["Colonialism, Imperialism, Capitalism, Empire"],
+        desc: "x",
+        scandals: [{
+          linkText: "x.",
+          linkUrl: "example.com"
+        }]},
+      {name: "Basmati Rice",
+        category: ["Lawsuit", "Regional Debates"],
+        desc: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
+        scandals: [{
+          linkText: "Enjoy this hilarious, lengthy lawsuit over cheesecake.",
+          linkUrl: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html"
+        }]},
+      {name: "Cheesecake",
+        category: ["Lawsuit", "Regional Debates"],
+        desc: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
+        scandals: [{
+          linkText: "Enjoy this hilarious, lengthy lawsuit over cheesecake.",
+          linkUrl: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html"
+        }]},
+      {name: "Chowder",
+        category: ["Pop Culture"],
+        desc: "Titanic Levels of Indigestion",
+        scandals: [{
+          linkText: "Somebody spiked the chowder on the titanic set with pcp.",
+          linkUrl: "https://www.theguardian.com/lifeandstyle/2024/apr/16/the-titanic-drug-poisoning-is-one-of-the-greatest-mysteries-in-film-history-about-to-be-solved"
+        }]},
+      {name: "Congee",
+        category: ["Lawsuit, Regional Debates, White Nonsense"],
+        desc: "x",
+        scandals: [{
+          linkText: "Some White lady claimed she modernized congee for the western pallate.",
+          linkUrl: "https://www.nbcnews.com/news/asian-america/white-woman-making-improved-congee-apologizes-continues-sales-n1274718"
+        }]},
+      {name: "Cookie",
+        category: ["Children's books"],
+        desc: "Someone gave this mouse a cookie and, simply, chaos ensued. Who fed that mouse? I'd like to speak with them.",
+        scandals: [{
+          linkText: "wiki about the book where the mouse eats a cookie.",
+          linkUrl: "https://en.wikipedia.org/wiki/If_You_Give_a_Mouse_a_Cookie"
+        }]},
+      {name: "Curry Leaves",
+        category: ["Colonialism, Imperialism, Capitalism, Empire"],
+        desc: "x.",
+        scandals: [{
+          linkText: "Scholarly research paper that includes info on the racialization of curry leaves.",
+          linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
+        }]},
+      {name: "Milk",
+        category: ["Spills", "Children's Books"],
+        desc: "x.",
+        scandals: [{
+          linkText: "Don't cry over spilled milk they say, which makes me wonder how many kids actually cry about spilled milk in a year?",
+          linkUrl: "https://en.wikipedia.org/wiki/It_Looked_Like_Spilt_Milk"
+        }]},
+      {name: "Milkshake",
+        category: ["Pop Culture"],
+        desc: "Apparently this girl's milkshake brings all the boys to the yard. Also, remember when that Shake Shack manager sued cops who claimed he tainted a milkshake?",
+        scandals: [
+          {
+            linkText: "Did you hear about this girl's milkshakes?",
+            linkUrl: "https://youtu.be/pGL2rytTraA?si=IuaoA7XlwFd0CGP6"
+          },
+          {
+            linkText: "Shake Shack manager sues cops over milkshake accusations.",
+            linkUrl: "https://www.grubstreet.com/2021/06/shake-shack-manager-sues-cops-over-tainted-milkshake-claims.html"
+          }
+        ]},
+      {name: "Molasses",
+        category: ["Spills"],
+        desc: "A lot of people died because of this Massachusetts flood. RIP.",
+        scandals: [{
+          linkText: "Boston takes the tragedy of the Molasses flood seriously, as they should.",
+          linkUrl: "https://en.wikipedia.org/wiki/Great_Molasses_Flood"
+        }]},
+      {name: "Mustard Oil",
+        category: ["Colonialism, Imperialism, Capitalism, Empire"],
+        desc: "x.",
+        scandals: [{
+          linkText: "Scholarly article that includes info on the racialization of mustard oil.",
+          linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
+        }]},
+      {name: "Pizza",
+        category: ["Pop Culture"],
+        desc: "Remember the suspicion around the uneven slices of pizza at Chuck E. Cheese?",
+        scandals: [{
+          linkText: "Theories around Chuck E Cheese's suspiciously uneven mismatched slices.",
+          linkUrl: "https://www.reddit.com/r/conspiracytheories/comments/apo5rg/the_chuck_e_cheese_conspiracy/"
+        }]},
+      {name: "Salsa",
+        category: ["Lawsuit"],
+        desc: "Relax. Your tongue isn't actually burning.",
+        scandals: [{
+          linkText: "IBS is not a crime, yet this white guy tried to sue Los Tacos No 1 for not putting a spicy warning.",
+          linkUrl: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce"
+        }]},
+      {name: "Subway Sandwich",
+        category: ["Lawsuit"],
+        desc: "x.",
+        scandals: [{
+          linkText: "x.",
+          linkUrl: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce"
+        }]},
+      {name: "Subway Tuna",
+        category: ["Lawsuit"],
+        desc: "x.",
+        scandals: [{
+          linkText: "x.",
+          linkUrl: "https://www.nbcnews.com/news/us-news/lawsuit-claims-subway-s-tuna-sandwiches-contain-no-tuna-n1256181"
+        }]},
+      {name: "Tomatoes",
+        category: ["Spills"],
+        desc: "Saucy highway alert.",
+        scandals: [{
+          linkText: "Not a murder scene, just a highway full of crushed tomatoes that fell out of a truck.",
+          linkUrl: "https://www.nytimes.com/2022/08/29/us/tomato-truck-crash-california.html"
+        }]},
+      {name: "Turmeric",
+        category: ["Colonialism, Imperialism, Capitalism, Empire"],
+        desc: "Kansas researchers try to patent turmeric. Not so fast. Hold that colonizer energy.",
+        scandals: [{
+          linkText: "Scholarly article that mentions the time researchers tried to patent turmeric, like as if a culture hadn't been using that for thousands of years already.",
+          linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
+        }]},
+    ];
+
+    // ── PIN COLORS ────────────────────────────────────────
+    const pinColors = [
+      'radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b)', // red
+      'radial-gradient(circle at 35% 35%, #74b9ff, #2980b9)', // blue
+      'radial-gradient(circle at 35% 35%, #a29bfe, #6c5ce7)', // purple
+      'radial-gradient(circle at 35% 35%, #55efc4, #00b894)', // green
+      'radial-gradient(circle at 35% 35%, #ffeaa7, #fdcb6e)', // yellow
+    ];
+
+    // slight random tilts so cards look naturally pinned
+    const tilts = [-3, -1.5, -2.5, 1, 2, -1, 3, 1.5, -2, 0.5, 2.5, -0.5, 1.8, -2.8, 0.8, -1.2, 2.2, -3.2];
+
+    // ── RENDER CORKBOARD CARDS ────────────────────────────
+    const board = document.getElementById('corkboard');
+
+    foods.forEach((food, i) => {
+      const tilt = tilts[i % tilts.length];
+      const pinColor = pinColors[i % pinColors.length];
+      const useTape = i % 5 === 3; // every 5th card uses tape instead of pin
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pinned-card';
+      wrapper.setAttribute('role', 'listitem');
+      wrapper.setAttribute('tabindex', '0');
+      wrapper.setAttribute('aria-label', `${food.name} — click to read`);
+      wrapper.style.transform = `rotate(${tilt}deg)`;
+      wrapper.style.boxShadow = `${tilt > 0 ? tilt : -tilt + 1}px ${Math.abs(tilt) + 3}px 14px rgba(0,0,0,0.28)`;
+
+      const categoryText = Array.isArray(food.category) ? food.category.join(', ') : food.category;
+
+      wrapper.innerHTML = `
+        ${useTape
+          ? `<div class="tape"></div>`
+          : `<div class="pin" style="background: ${pinColor}"></div>`
+        }
+        <div class="index-card">
+          <div class="card-header">Food Scandals &nbsp;·&nbsp; ${String(i+1).padStart(2,'0')}</div>
+          <div class="card-title">${food.name}</div>
+          <div class="card-subtitle">${categoryText}</div>
+          <div class="card-tap-hint">tap to read ↗</div>
+        </div>
+      `;
+
+      wrapper.addEventListener('click', () => openCard(i));
+      wrapper.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') openCard(i); });
+      board.appendChild(wrapper);
+    });
+
+    // ── OPEN / CLOSE CARD (same logic as index.html) ──────
+    function openCard(i) {
+      const food = foods[i];
+      const body = document.getElementById('expandedBody');
+      const categoryText = Array.isArray(food.category) ? food.category.join(', ') : food.category;
+
+      const scandalsHtml = food.scandals.map(s => `
+        <div class="scandal-item">
+          <a href="${s.linkUrl}" target="_blank" rel="noopener noreferrer">${s.linkText}</a>
+        </div>
+      `).join('');
+
+      body.innerHTML = `
+        <div class="expanded-title" id="expandedTitle">${food.name}</div>
+        <p class="expanded-desc">${food.desc}</p>
+        <div class="expanded-scandals-label">☞ The Debacles</div>
+        ${scandalsHtml}
+      `;
+
+      const overlay = document.getElementById('cardOverlay');
+      overlay.classList.add('active');
+      overlay.querySelector('.close-btn').focus();
+    }
+
+    function closeCard() {
+      document.getElementById('cardOverlay').classList.remove('active');
+    }
+
+    document.getElementById('cardOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeCard();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeCard();
+    });
+  </script>
+</body>
+</html>

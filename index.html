@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Food Scandals</title>
+		<!--<link rel="stylesheet" href="css/simple.css"> -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+  		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet">
+  		<link rel="stylesheet" href="simple.css">
+	</head>
+
+	<body>
+		<!--Header-->
+		<header>
+			<!--need nav menu here-->
+			<h1><span>Food</span> Scandals</h1>
+			<nav>
+				<a href="index.html" aria-current="page">Home</a>
+				<a href="about.html">About</a>
+                <a href="collection.html">Collection</a>
+                <a href="stir.html">Stir</a>
+				<a href="spill.html">Spill</a>
+			</nav>
+		</header>
+		
+		<main>
+			<div class="home-intro">
+				<h2>The Debacle Box</h2>
+				<p> Peruse profiles of delicious foods and the drama they've endured. </p>
+			</div>
+			<!---RECIPE BOX DIV-->
+			<div
+				class="box-scene"
+				id="boxScene"
+				role="button"
+				tabindex="0"
+				aria-label="Open the debacle box"
+				title="Click to open"
+				onclick="toggleBox()"
+				onkeydown="if(event.key==='Enter'||event.key===' ')toggleBox"
+			>
+				<div class="recipe-box" id="recipeBox">
+        			<div class="box-body">
+         				<!-- <div class="box-tabs">
+            				<div class="box-tab">A–E</div>
+            				<div class="box-tab">F–N</div>
+            				<div class="box-tab">O–Z</div>
+         				 </div> -->
+        			</div>
+        			<div class="box-lid"></div>
+				</div>
+      		</div>
+    		<p class="box-hint" id="boxHint">☝ Click to open the box</p>
+
+            <!--CARD TRAY (shown after box opens)-->
+    		<div class="card-tray-wrapper" id="cardTray">
+     			<p class="tray-label">16 foods · alphabetical order · click a card to read</p>
+
+      			<div class="card-tray" id="trayScroll" role="list">
+        		<!-- Cards injected by JS -->
+      			</div>
+
+     			<div class="tray-nav" aria-label="Scroll cards">
+       				<button class="tray-arrow" onclick="scrollTray(-1)" aria-label="Scroll left">←</button>
+        			<button class="tray-arrow" onclick="scrollTray(1)"  aria-label="Scroll right">→</button>
+      			</div>
+    		</div> 
+
+            <!-- ─── EXPANDED CARD OVERLAY ─── -->
+ 			<div class="card-overlay" id="cardOverlay" role="dialog" aria-modal="true" aria-labelledby="expandedTitle">
+   				<div class="card-expanded" id="cardExpanded">
+      				<div class="expanded-header">
+        				<span class="expanded-label">Food Scandals · Debacle File</span>
+        				<button class="close-btn" onclick="closeCard()" aria-label="Close card">✕</button>
+      					</div>
+      					<div class="expanded-body" id="expandedBody">
+        		<!--filled by JS -->
+       					</div>
+    				</div>  
+  				</div>
+			</main>
+
+		<!-- ─── FOOTER ─── -->
+		<footer>
+			<p>Website made by comedian, <a href="about.html">Sidikha Ashraf</a>.</p>
+		</footer>
+
+<!--interactivity through Javascript-->
+<script>
+//starting with data for food cards
+	const foods = [
+        {name: "Apple",
+        category: ["Culture"],
+        desc: "The original food scandal in abrahamic faiths is that time someone ate an apple.",
+        scandals: [
+          {
+            linkText: "Someone ate an apple and therefore we are all aware of the human capability to sin.",
+            linkUrl: "https://en.wikipedia.org/wiki/Adam_and_Eve"
+          },]},
+        {name: "Banana",
+        category: ["Colonialism, Imperialism, Capitalism, Empire"],
+        desc: "x",
+        scandals: [
+          {
+            linkText: "x.",
+            linkUrl: "example.com"
+          },]},
+        {name: "Basmati Rice",
+        category: ["Lawsuit", "Regional Debates"],
+        desc: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
+        scandals: [
+          {
+            linkText: "Enjoy this hilarious, lengthy lawsuit over cheesecake.",
+            linkUrl: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html?_r=1&pagewanted=1&n=Top/Reference/Times%20Topics/Subjects/C/Cheesecake?ref=cheesecake"
+          },]},
+        {name: "Cheesecake",
+        category: ["Lawsuit", "Regional Debates"],
+        desc: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
+        scandals: [
+          {
+            linkText: "Enjoy this hilarious, lengthy lawsuit over cheesecake.",
+            linkUrl: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html?_r=1&pagewanted=1&n=Top/Reference/Times%20Topics/Subjects/C/Cheesecake?ref=cheesecake"
+          },]},
+        {name: "Chowder",
+	  	category: "Pop Culture",
+		desc: "Titanic Levels of Indigestion",
+		scandals: [
+          {
+            linkText: "Somebody spiked the chowder on the titanic set with pcp.",
+            linkUrl: "https://www.theguardian.com/lifeandstyle/2024/apr/16/the-titanic-drug-poisoning-is-one-of-the-greatest-mysteries-in-film-history-about-to-be-solved"
+          },	
+		]},
+	    {name: "Congee",
+	  	category: "Lawsuit, Regional Debates, White Nonsense",
+		desc: "x",
+		scandals: [
+          {
+            linkText: "Some White lady claimed she modernized congee for the western pallate.",
+            linkUrl: "https://www.nbcnews.com/news/asian-america/white-woman-making-improved-congee-apologizes-continues-sales-n1274718"
+          },	
+		]},
+        {name: "Cookie",
+	  	category: "Children's books",
+		desc: "Someone gave this mouse a cookie and, simply, chaos ensued. Who fed that mouse? I'd like to speak with them.",
+		scandals: [
+          {
+            linkText: "wiki about the book where the mouse eats a cookie.",
+            linkUrl: "https://en.wikipedia.org/wiki/If_You_Give_a_Mouse_a_Cookie"
+          },	
+		]},
+        {name: "Curry leaves",
+	  	category: "Colonialism, Imperialism, Capitalism, Empire",
+		desc: "x.",
+		scandals: [
+          {
+            linkText: "Scholarly research paper that includes info on the racialization of curry leaves.",
+            linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
+          },	
+		]},
+        {name: "Milk",
+	  	category: "Spills; Children's Books",
+		desc: "x.",
+		scandals: [
+          {
+            linkText: "Don't cry over spilled milk they say, which makes me wonder how many kids actually cry about spilled milk in a year? That would be a data visualization only I asked for and will never get.",
+            linkUrl: "https://en.wikipedia.org/wiki/It_Looked_Like_Spilt_Milk"
+          },	
+		]},
+        {name: "Milkshake",
+	  	category: "Pop Culture",
+		desc: "Apparently this girl's milkshake brings all the boys to the yard and they're saying her milkshake is better than yours. Also, unrelated, remember when that Shake Shack manager sued cops who claimed he tainted a milkshake?",
+		scandals: [
+          {
+            linkText: "Did you hear about this girl's milkshakes?",
+            linkUrl: "https://youtu.be/pGL2rytTraA?si=IuaoA7XlwFd0CGP6"
+          },
+          {
+            linkText: "Shake Shack manager sues cops over milkshake accusations.",
+            linkUrl: "https://www.grubstreet.com/2021/06/shake-shack-manager-sues-cops-over-tainted-milkshake-claims.html"
+          },	
+		]},
+        {name: "Mollasses",
+	  	category: "Spills",
+		desc: "A lot of people died because of this Massachusetts flood. RIP.",
+		scandals: [
+          {
+            linkText: "Boston takes the tragedy of the Mollases flood seriously, as they should.",
+            linkUrl: "https://en.wikipedia.org/wiki/Great_Molasses_Flood"
+          },	
+		]},
+        {name: "Mustard Oil",
+	  	category: "Colonialism, Imperialism, Capitalism, Empire",
+		desc: "x.",
+		scandals: [
+          {
+            linkText: "Scholarly article that includes info on the racialization of mustard oil.",
+            linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
+          },	
+		]},
+        {name: "Pizza",
+	  	category: "Pop Culture",
+		desc: "Remember when Youtuber Shane Dawson released a docuvideo on Chuck E. Cheese. I do because I watched it as a teenager. I thought it would be funny but it wasn't so I'm not gonna link it, but for those of you who don't know, there was once upon a time, suspicion around the uneven slices of pizza at Chuck E. Cheese.",
+		scandals: [
+          {
+            linkText: "Theories around Chuck E Cheese's suspiciously uneven mismatched slices",
+            linkUrl: "https://www.reddit.com/r/conspiracytheories/comments/apo5rg/the_chuck_e_cheese_conspiracy/"
+          },	
+		]},
+        {name: "Salsa",
+	  	category: "Lawsuit",
+		desc: "Relax. Your tongue isn't actually burning.",
+		scandals: [
+          {
+            linkText: "IBS is not a crime,, yet this white guy tried to sue Los Tacos No 1 for not putting a spicy warning.",
+            linkUrl: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce"
+          },	
+		]},
+        {name: "Subway Sandwich",
+	  	category: "Lawsuit",
+		desc: "x.",
+		scandals: [
+          {
+            linkText: "x.",
+            linkUrl: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce"
+          },	
+		]},
+        {name: "Subway Tuna",
+	  	category: "Lawsuit",
+		desc: "x.",
+		scandals: [
+          {
+            linkText: "x.",
+            linkUrl: "https://www.nbcnews.com/news/us-news/lawsuit-claims-subway-s-tuna-sandwiches-contain-no-tuna-n1256181"
+          },	
+		]},
+        {name: "Tomatoes",
+	  	category: "Spills",
+		desc: "Saucy highway alert.",
+		scandals: [
+          {
+            linkText: "Not a murder scene, just a highway full of crushed tomatos that fell out of a truck.",
+            linkUrl: "https://www.nytimes.com/2022/08/29/us/tomato-truck-crash-california.html"
+          },	
+		]},
+        {name: "Tumeric",
+	  	category: "Colonialism, Imperialism, Capitalism, Empire",
+		desc: "Kansas researchers try to patent tumeric. Not so fast. Hold that colonizer energy.",
+		scandals: [
+          {
+            linkText: "Scholarly article that mentions the time a bunch of researchers in Kansas tried to patent tumeric, like as if a culture hadn't been using that for thousands of years already.",
+            linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
+          },	
+		]},
+]
+//
+    // ── RENDER CARDS ──────────────────────────────────────
+    const tray = document.getElementById('trayScroll');
+
+    foods.forEach((food, i) => {
+      const card = document.createElement('div');
+      card.className = 'index-card';
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `${food.name} — click to read`);
+      card.innerHTML = `
+        <div class="card-header">Food Scandals &nbsp;·&nbsp; Card ${String(i+1).padStart(2,'0')}</div>
+        <div class="card-title">${food.name}</div>
+        <div class="card-subtitle">${food.category}</div>
+        <div class="card-tap-hint">tap to read ↗</div>
+      `;
+      card.addEventListener('click', () => openCard(i));
+      card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') openCard(i); });
+      tray.appendChild(card);
+    });
+
+    // ── BOX TOGGLE ────────────────────────────────────────
+    function toggleBox() {
+      const scene = document.getElementById('boxScene');
+      const trayWrapper = document.getElementById('cardTray');
+      const isOpen = scene.classList.toggle('open');
+      trayWrapper.classList.toggle('visible', isOpen);
+      scene.setAttribute('aria-label', isOpen ? 'Close the recipe box' : 'Open the recipe box');
+      document.getElementById('boxHint').textContent = isOpen ? '☝ Click to close the box' : '☝ Click to open the box';
+    }
+
+    // ── TRAY ARROWS ───────────────────────────────────────
+    function scrollTray(dir) {
+      const t = document.getElementById('trayScroll');
+      t.scrollBy({ left: dir * 290, behavior: 'smooth' });
+    }
+
+    // ── OPEN / CLOSE CARD ─────────────────────────────────
+    function openCard(i) {
+      const food = foods[i];
+      const body = document.getElementById('expandedBody');
+
+      const scandalsHtml = food.scandals.map(s => `
+        <div class="scandal-item">
+          <p>${s.text}</p>
+          <a href="${s.linkUrl}" target="_blank" rel="noopener noreferrer">${s.linkText}</a>
+        </div>
+      `).join('');
+
+      body.innerHTML = `
+        <div class="expanded-title" id="expandedTitle">${food.name}</div>
+        <p class="expanded-desc">${food.desc}</p>
+        <div class="expanded-scandals-label">☞ The Debacles</div>
+        ${scandalsHtml}
+      `;
+
+      const overlay = document.getElementById('cardOverlay');
+      overlay.classList.add('active');
+      overlay.querySelector('.close-btn').focus();
+    }
+
+    function closeCard() {
+      document.getElementById('cardOverlay').classList.remove('active');
+    }
+
+    // Close overlay on backdrop click
+    document.getElementById('cardOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeCard();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeCard();
+    });
+	</script>
+</body>
+</html>
+				
