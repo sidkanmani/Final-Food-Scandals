@@ -129,19 +129,19 @@ main { /*this is where everything between the header and footer goes*/
 }
 
 .about-intro h2 {
-  	font-family: 'Playfair Display', serif;
-  	font-size: clamp(1.4rem, 4vw, 2.2rem);
-  	color: var(--rust);
-  	margin-bottom: 0.4rem;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: var(--rust);
+  margin-bottom: 0.4rem;
 }
 
 .about-intro p {
-  	font-size: 0.9rem;
-  	color: #6b5c40;
-  	font-style: italic;
+  font-size: 0.9rem;
+  color: #6b5c40;
+  font-style: italic;
 }
 
-/* shared card style for both the project and bio cards */
+/* shared card style for both the project and bio cards; the box and background are drawn first, then the margin line is added, than the text from top down */
 .about-card {
   	background: var(--card);
   	border: 1px solid var(--line);
@@ -210,17 +210,17 @@ main { /*this is where everything between the header and footer goes*/
 
 .about-card p:last-child {
   	margin-bottom: 0;
-}
+} /*removes extra space after the last paragraph in a card*/
 
 .about-card a {
   	color: var(--rust);
   	text-decoration: none;
   	font-weight: 500;
-}
+} /* makes all links in the card the rust color and removes the underline on hyperlinks through text-decoration:none */
 
 .about-card a:hover {
   	text-decoration: underline;
-}
+} /* brings the underline back on hyperlinks only when you hover on a link*/
 
 /* ─── BOX PAGE ─────────────────────────────────────── */ /*i did use Claude to help me with box sizing*/
 .box-scene {
@@ -344,7 +344,7 @@ main { /*this is where everything between the header and footer goes*/
   transition: opacity 0.3s 0.3s;
   pointer-events: none;
 }  */
-/*maybe give the tabs diff colors in next iteration*/
+/*didn't like the tab dividers*/
 
 /* .box-scene.open .box-tabs {
   opacity: 1;
@@ -371,18 +371,18 @@ main { /*this is where everything between the header and footer goes*/
   margin-top: 0.35rem;
   max-width: 900px;
   width: 100%;
-  display: none;
+  display: none; /*keeps card hidden till made visible*/
   flex-direction: column;
   align-items: center;
-  animation: trayIn 0.4s ease both;
-}
+  animation: trayIn 0.4s ease both; /* this calls the below trayIn function; 0.4s is how long the animation of the tray appearing lasts*/
+} /*the ease animation starts slow, speeds up, slows as it ends; both prevents glitch*/ 
 
 @keyframes trayIn {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
-}
+} /*tray entrance animation after opening box*/
 
-.card-tray-wrapper.visible { display: flex; }
+.card-tray-wrapper.visible { display: flex; } /*tray made visible now with this CSS selector that overrides the above display:none; when closing the box, display:none happens again hiding the tray*/
 
 .tray-label {
   font-family: 'Special Elite', cursive;
@@ -411,9 +411,9 @@ main { /*this is where everything between the header and footer goes*/
   position: relative;
 }
 
-.card-tray::-webkit-scrollbar { height: 6px; }
-.card-tray::-webkit-scrollbar-track { background: var(--line); border-radius: 3px; }
-.card-tray::-webkit-scrollbar-thumb { background: var(--rust); border-radius: 3px; }
+.card-tray::-webkit-scrollbar { height: 6px; } /* webkit means works in webkit browsers like Chrome, Safari, Edge etc. */
+.card-tray::-webkit-scrollbar-track { background: var(--line); border-radius: 3px; } /*track is the background groove of the scrollbar*/
+.card-tray::-webkit-scrollbar-thumb { background: var(--rust); border-radius: 3px; } /*thumb is the draggable part on the scrollbar; border-radius is for rounding the design*/
 
 /* arrow nav */
 .tray-nav {
@@ -434,7 +434,7 @@ main { /*this is where everything between the header and footer goes*/
   transition: background 0.2s;
 }
 
-.tray-arrow:hover { background: var(--rust); }
+.tray-arrow:hover { background: var(--rust); } /*this with the above background transition allows for the arrow circle to change color over 0.2s rather than abrupt change*/
 
 /* ─── INDEX CARDS ────────────────────────────────────── */
 .index-card {
@@ -683,38 +683,6 @@ main { /*this is where everything between the header and footer goes*/
 
 .scandal-item a:hover { text-decoration: underline; }
 /*carry this styling to the card on the about page and on the spill page for consistency*/
-
-/* ─── FOOTER ─────────────────────────────────────────── */
-footer {
-  text-align: center;
-  padding: 1.5rem;
-  font-size: 0.75rem;
-  color: #8a7355;
-  font-style: italic;
-  border-top: 1px solid var(--line);
-}
-
-/* ─── RESPONSIVE ─────────────────────────────────────── */
-@media (max-width: 600px) {
-  :root {
-    --box-w: 260px;
-    --box-h: 170px;
-    --card-w: 220px;
-    --card-h: 148px;
-  }
-
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.6rem 1rem;
-    gap: 0.4rem; /*reminder this is applicable to just the food scandals part of the header not the menu*/
-  }
-
-  nav { flex-wrap: wrap; } /*reminder this is for your menu*/
-
-  .expanded-body { padding: 1rem 1rem 1.4rem 1.2rem; }
-  .card-expanded::before { display: none; }
-}
 
 
 /* ─── STIR PAGE ───────────────────────────────────────── */
@@ -1018,8 +986,8 @@ footer {
   z-index: 1;
 }
 
-/* success message */
-.success-msg {
+/* success message - removed this bc form submission goes to a thank you page now */
+/* .success-msg {
   display: none;
   text-align: center;
   padding: 1.5rem 1rem;
@@ -1038,7 +1006,8 @@ footer {
   font-size: 0.82rem;
   color: #6b5c40;
   font-style: italic;
-}
+} */
+ 
 /* ─── THANK YOU PAGE ─────────────────────────────────────── */
 .thankyou-card {
     background: var(--card);
@@ -1146,4 +1115,35 @@ footer {
 .back-link.secondary:hover {
     background: var(--rust);
     color: #fff;
+}
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.75rem;
+  color: #8a7355;
+  font-style: italic;
+  border-top: 1px solid var(--line);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  :root {
+    --box-w: 260px;
+    --box-h: 170px;
+    --card-w: 220px;
+    --card-h: 148px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.6rem 1rem;
+    gap: 0.4rem; /*reminder this is applicable to just the food scandals part of the header not the menu*/
+  }
+
+  nav { flex-wrap: wrap; } /*reminder this is for your menu*/
+
+  .expanded-body { padding: 1rem 1rem 1.4rem 1.2rem; }
+  .card-expanded::before { display: none; }
 }
