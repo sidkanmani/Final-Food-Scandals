@@ -18,13 +18,13 @@
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      min-height: 60vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 2rem 1.5rem 4rem;
+      padding: 2rem 1.5rem 1rem;
       position: relative;
     }
 
@@ -42,8 +42,8 @@
       font-size: clamp(3.5rem, 12vw, 8rem);
       font-weight: 700;
       color: var(--ink);
-      line-height: 1;
-      margin-bottom: 0.2em;
+      line-height: 1.02;
+      margin-bottom: 0.35em;
       letter-spacing: -0.02em;
     }
 
@@ -60,42 +60,13 @@
       font-size: clamp(1rem, 2.5vw, 1.4rem);
       color: #6b5c40;
       margin-top: 1.2rem;
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
       max-width: 480px;
-    }
-
-    /* scroll cue */
-    .scroll-cue {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: 'Special Elite', cursive;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #a89070;
-    }
-
-    .scroll-arrow {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, var(--rust));
-      animation: scrollPulse 1.6s ease-in-out infinite;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
-      50%       { opacity: 1;   transform: scaleY(1); }
     }
 
     /* ── OPTIONS SECTION ── */
     .options-section {
-      padding: 5rem 2rem 6rem;
+      padding: 1rem 2rem 4rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -261,10 +232,6 @@
         <em>Scandals</em>
       </h2>
       <p class="hero-subtitle">Peruse profiles of delicious foods and the drama they've endured.</p>
-      <div class="scroll-cue" aria-hidden="true">
-        <div class="scroll-arrow"></div>
-        <span>explore</span>
-      </div>
     </section>
 
     <!-- THREE OPTIONS -->
@@ -352,7 +319,6 @@
           <p class="option-desc">Browse all the debacle files pinned up on the corkboard.</p>
           <span class="option-cta">Browse the board ↗</span>
         </a>
-
       </div>
     </section>
 
