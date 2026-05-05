@@ -1,334 +1,367 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Food Scandals</title>
-		<!--<link rel="stylesheet" href="css/simple.css"> -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-  		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet">
-  		<link rel="stylesheet" href="simple.css">
-	</head>
-
-	<body>
-		<!--Header-->
-		<header>
-			<h1><span>Food</span> Scandals</h1>
-			<nav>
-				<a href="index.html" aria-current="page">Home</a>
-				<a href="about.html">About</a>
-                <a href="box.html">Box</a>
-                <a href="collection.html">Collection</a>
-                <a href="stir.html">Stir</a>
-				<a href="spill.html">Spill</a>
-			</nav>
-		</header>
-		
-		<main>
-			<div class="home-intro">
-				<h2>The Debacle Box</h2>
-				<p> Peruse profiles of delicious foods and the drama they've endured. </p>
-			</div>
-			<!---RECIPE BOX DIV-->
-			<div
-				class="box-scene"
-				id="boxScene"
-				role="button"
-				tabindex="0"
-				aria-label="Open the debacle box"
-				title="Click to open"
-				onclick="toggleBox()"
-				onkeydown="if(event.key==='Enter'||event.key===' ')toggleBox"
-			>
-				<div class="recipe-box" id="recipeBox">
-        			<div class="box-body">
-         				<!-- <div class="box-tabs">
-            				<div class="box-tab">A–E</div>
-            				<div class="box-tab">F–N</div>
-            				<div class="box-tab">O–Z</div>
-         				 </div> -->
-        			</div>
-        			<div class="box-lid"></div>
-				</div>
-      		</div>
-    		<p class="box-hint" id="boxHint">☝ Click to open the box</p>
-
-            <!--CARD TRAY (shown after box opens)-->
-    		<div class="card-tray-wrapper" id="cardTray">
-     			<p class="tray-label">16 foods · alphabetical order · click a card to read</p>
-
-      			<div class="card-tray" id="trayScroll" role="list">
-        		<!-- Cards injected by JS -->
-      			</div>
-
-     			<div class="tray-nav" aria-label="Scroll cards">
-       				<button class="tray-arrow" onclick="scrollTray(-1)" aria-label="Scroll left">←</button>
-        			<button class="tray-arrow" onclick="scrollTray(1)"  aria-label="Scroll right">→</button>
-      			</div>
-    		</div> 
-
-            <!-- ─── EXPANDED CARD OVERLAY ─── -->
- 			<div class="card-overlay" id="cardOverlay" role="dialog" aria-modal="true" aria-labelledby="expandedTitle">
-   				<div class="card-expanded" id="cardExpanded">
-      				<div class="expanded-header">
-        				<span class="expanded-label">Food Scandals · Debacle File</span>
-        				<button class="close-btn" onclick="closeCard()" aria-label="Close card">✕</button>
-      					</div>
-      					<div class="expanded-body" id="expandedBody">
-        		<!--filled by JS -->
-       					</div>
-    				</div>  
-  				</div>
-			</main>
-
-		<!-- ─── FOOTER ─── -->
-		<footer>
-			<p>Website made by comedian, <a href="about.html">Sidikha Ashraf</a>.</p>
-		</footer>
-
-<!--interactivity through Javascript-->
-<script>
-//starting with data for food cards
-	const foods = [
-        {name: "Apple",
-        category: ["Culture"],
-        desc: "The original food scandal in abrahamic faiths is that time someone ate an apple.",
-        scandals: [
-          {
-            linkText: "Someone ate an apple and therefore we are all aware of the human capability to sin.",
-            linkUrl: "https://en.wikipedia.org/wiki/Adam_and_Eve"
-          },]},
-        {name: "Banana",
-        category: ["Colonialism, Imperialism, Capitalism, Empire"],
-        desc: "x",
-        scandals: [
-          {
-            linkText: "x.",
-            linkUrl: "example.com"
-          },]},
-        {name: "Basmati Rice",
-        category: ["Lawsuit", "Regional Debates"],
-        desc: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
-        scandals: [
-          {
-            linkText: "Enjoy this hilarious, lengthy lawsuit over cheesecake.",
-            linkUrl: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html?_r=1&pagewanted=1&n=Top/Reference/Times%20Topics/Subjects/C/Cheesecake?ref=cheesecake"
-          },]},
-        {name: "Cheesecake",
-        category: ["Lawsuit", "Regional Debates"],
-        desc: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
-        scandals: [
-          {
-            linkText: "Enjoy this hilarious, lengthy lawsuit over cheesecake.",
-            linkUrl: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html?_r=1&pagewanted=1&n=Top/Reference/Times%20Topics/Subjects/C/Cheesecake?ref=cheesecake"
-          },]},
-        {name: "Chowder",
-	  	category: "Pop Culture",
-		desc: "Titanic Levels of Indigestion",
-		scandals: [
-          {
-            linkText: "Somebody spiked the chowder on the titanic set with pcp.",
-            linkUrl: "https://www.theguardian.com/lifeandstyle/2024/apr/16/the-titanic-drug-poisoning-is-one-of-the-greatest-mysteries-in-film-history-about-to-be-solved"
-          },	
-		]},
-	    {name: "Congee",
-	  	category: "Lawsuit, Regional Debates, White Nonsense",
-		desc: "x",
-		scandals: [
-          {
-            linkText: "Some White lady claimed she modernized congee for the western pallate.",
-            linkUrl: "https://www.nbcnews.com/news/asian-america/white-woman-making-improved-congee-apologizes-continues-sales-n1274718"
-          },	
-		]},
-        {name: "Cookie",
-	  	category: "Children's books",
-		desc: "Someone gave this mouse a cookie and, simply, chaos ensued. Who fed that mouse? I'd like to speak with them.",
-		scandals: [
-          {
-            linkText: "wiki about the book where the mouse eats a cookie.",
-            linkUrl: "https://en.wikipedia.org/wiki/If_You_Give_a_Mouse_a_Cookie"
-          },	
-		]},
-        {name: "Curry leaves",
-	  	category: "Colonialism, Imperialism, Capitalism, Empire",
-		desc: "x.",
-		scandals: [
-          {
-            linkText: "Scholarly research paper that includes info on the racialization of curry leaves.",
-            linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
-          },	
-		]},
-        {name: "Milk",
-	  	category: "Spills; Children's Books",
-		desc: "x.",
-		scandals: [
-          {
-            linkText: "Don't cry over spilled milk they say, which makes me wonder how many kids actually cry about spilled milk in a year? That would be a data visualization only I asked for and will never get.",
-            linkUrl: "https://en.wikipedia.org/wiki/It_Looked_Like_Spilt_Milk"
-          },	
-		]},
-        {name: "Milkshake",
-	  	category: "Pop Culture",
-		desc: "Apparently this girl's milkshake brings all the boys to the yard and they're saying her milkshake is better than yours. Also, unrelated, remember when that Shake Shack manager sued cops who claimed he tainted a milkshake?",
-		scandals: [
-          {
-            linkText: "Did you hear about this girl's milkshakes?",
-            linkUrl: "https://youtu.be/pGL2rytTraA?si=IuaoA7XlwFd0CGP6"
-          },
-          {
-            linkText: "Shake Shack manager sues cops over milkshake accusations.",
-            linkUrl: "https://www.grubstreet.com/2021/06/shake-shack-manager-sues-cops-over-tainted-milkshake-claims.html"
-          },	
-		]},
-        {name: "Mollasses",
-	  	category: "Spills",
-		desc: "A lot of people died because of this Massachusetts flood. RIP.",
-		scandals: [
-          {
-            linkText: "Boston takes the tragedy of the Mollases flood seriously, as they should.",
-            linkUrl: "https://en.wikipedia.org/wiki/Great_Molasses_Flood"
-          },	
-		]},
-        {name: "Mustard Oil",
-	  	category: "Colonialism, Imperialism, Capitalism, Empire",
-		desc: "x.",
-		scandals: [
-          {
-            linkText: "Scholarly article that includes info on the racialization of mustard oil.",
-            linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
-          },	
-		]},
-        {name: "Pizza",
-	  	category: "Pop Culture",
-		desc: "Remember when Youtuber Shane Dawson released a docuvideo on Chuck E. Cheese. I do because I watched it as a teenager. I thought it would be funny but it wasn't so I'm not gonna link it, but for those of you who don't know, there was once upon a time, suspicion around the uneven slices of pizza at Chuck E. Cheese.",
-		scandals: [
-          {
-            linkText: "Theories around Chuck E Cheese's suspiciously uneven mismatched slices",
-            linkUrl: "https://www.reddit.com/r/conspiracytheories/comments/apo5rg/the_chuck_e_cheese_conspiracy/"
-          },	
-		]},
-        {name: "Salsa",
-	  	category: "Lawsuit",
-		desc: "Relax. Your tongue isn't actually burning.",
-		scandals: [
-          {
-            linkText: "IBS is not a crime,, yet this white guy tried to sue Los Tacos No 1 for not putting a spicy warning.",
-            linkUrl: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce"
-          },	
-		]},
-        {name: "Subway Sandwich",
-	  	category: "Lawsuit",
-		desc: "x.",
-		scandals: [
-          {
-            linkText: "x.",
-            linkUrl: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce"
-          },	
-		]},
-        {name: "Subway Tuna",
-	  	category: "Lawsuit",
-		desc: "x.",
-		scandals: [
-          {
-            linkText: "x.",
-            linkUrl: "https://www.nbcnews.com/news/us-news/lawsuit-claims-subway-s-tuna-sandwiches-contain-no-tuna-n1256181"
-          },	
-		]},
-        {name: "Tomatoes",
-	  	category: "Spills",
-		desc: "Saucy highway alert.",
-		scandals: [
-          {
-            linkText: "Not a murder scene, just a highway full of crushed tomatos that fell out of a truck.",
-            linkUrl: "https://www.nytimes.com/2022/08/29/us/tomato-truck-crash-california.html"
-          },	
-		]},
-        {name: "Tumeric",
-	  	category: "Colonialism, Imperialism, Capitalism, Empire",
-		desc: "Kansas researchers try to patent tumeric. Not so fast. Hold that colonizer energy.",
-		scandals: [
-          {
-            linkText: "Scholarly article that mentions the time a bunch of researchers in Kansas tried to patent tumeric, like as if a culture hadn't been using that for thousands of years already.",
-            linkUrl: "https://escholarship.org/uc/item/7hr5p0fj"
-          },	
-		]},
-]
-//
-    // ── RENDER CARDS ──────────────────────────────────────
-    const tray = document.getElementById('trayScroll');
-
-    foods.forEach((food, i) => {
-      const card = document.createElement('div');
-      card.className = 'index-card';
-      card.setAttribute('role', 'listitem');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', `${food.name} — click to read`);
-      card.innerHTML = `
-        <div class="card-header">Food Scandals &nbsp;·&nbsp; Card ${String(i+1).padStart(2,'0')}</div>
-        <div class="card-title">${food.name}</div>
-        <div class="card-subtitle">${food.category}</div>
-        <div class="card-tap-hint">tap to read ↗</div>
-      `;
-      card.addEventListener('click', () => openCard(i));
-      card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') openCard(i); });
-      tray.appendChild(card);
-    });
-
-    // ── BOX TOGGLE ────────────────────────────────────────
-    function toggleBox() {
-      const scene = document.getElementById('boxScene');
-      const trayWrapper = document.getElementById('cardTray');
-      const isOpen = scene.classList.toggle('open');
-      trayWrapper.classList.toggle('visible', isOpen);
-      scene.setAttribute('aria-label', isOpen ? 'Close the recipe box' : 'Open the recipe box');
-      document.getElementById('boxHint').textContent = isOpen ? '☝ Click to close the box' : '☝ Click to open the box';
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Scandals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="simple.css">
+  <style>
+    /* ─── LANDING PAGE ───────────────────────────────────── */
+    main {
+      display: block;
+      padding: 0;
+      min-height: unset;
     }
 
-    // ── TRAY ARROWS ───────────────────────────────────────
-    function scrollTray(dir) {
-      const t = document.getElementById('trayScroll');
-      t.scrollBy({ left: dir * 290, behavior: 'smooth' });
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
     }
 
-    // ── OPEN / CLOSE CARD ─────────────────────────────────
-    function openCard(i) {
-      const food = foods[i];
-      const body = document.getElementById('expandedBody');
-
-      const scandalsHtml = food.scandals.map(s => `
-        <div class="scandal-item">
-          <p>${s.text}</p>
-          <a href="${s.linkUrl}" target="_blank" rel="noopener noreferrer">${s.linkText}</a>
-        </div>
-      `).join('');
-
-      body.innerHTML = `
-        <div class="expanded-title" id="expandedTitle">${food.name}</div>
-        <p class="expanded-desc">${food.desc}</p>
-        <div class="expanded-scandals-label">☞ The Debacles</div>
-        ${scandalsHtml}
-      `;
-
-      const overlay = document.getElementById('cardOverlay');
-      overlay.classList.add('active');
-      overlay.querySelector('.close-btn').focus();
+    .hero-eyebrow {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #8a7355;
+      margin-bottom: 1.5rem;
     }
 
-    function closeCard() {
-      document.getElementById('cardOverlay').classList.remove('active');
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.2em;
+      letter-spacing: -0.02em;
     }
 
-    // Close overlay on backdrop click
-    document.getElementById('cardOverlay').addEventListener('click', function(e) {
-      if (e.target === this) closeCard();
-    });
+    .hero-title em {
+      color: var(--rust);
+      font-style: italic;
+      font-weight: 400;
+      display: block;
+    }
 
-    // Close on Escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeCard();
-    });
-	</script>
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: #6b5c40;
+      margin-top: 1.2rem;
+      margin-bottom: 3rem;
+      max-width: 480px;
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Special Elite', cursive;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #a89070;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--rust));
+      animation: scrollPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+      50%       { opacity: 1;   transform: scaleY(1); }
+    }
+
+    /* ── OPTIONS SECTION ── */
+    .options-section {
+      padding: 5rem 2rem 6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .options-label {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #8a7355;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 860px;
+      width: 100%;
+    }
+
+    /* ── OPTION CARD ── */
+    .option-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 2rem 1.4rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 3px 4px 14px var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+      background-image: repeating-linear-gradient(
+        transparent, transparent 27px, #e8e0d0 27px, #e8e0d0 28px
+      );
+      cursor: pointer;
+    }
+
+    /* red margin line */
+    .option-card::before {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 40px;
+      width: 1px;
+      background: #e08080;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* rust top bar */
+    .option-card::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--rust);
+    }
+
+    .option-card:hover {
+      transform: translateY(-6px) rotate(-0.5deg);
+      box-shadow: 6px 12px 28px var(--shadow);
+    }
+
+    .option-card:focus {
+      outline: 3px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    .option-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .option-number {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--rust);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .option-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .option-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      color: #7a6a50;
+      line-height: 1.55;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.2rem;
+    }
+
+    .option-cta {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rust);
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+      }
+
+      .option-card:hover {
+        transform: translateY(-4px) rotate(0deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HEADER ─── -->
+  <header>
+    <h1><span>Food</span> Scandals</h1>
+    <nav>
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="about.html">About</a>
+      <a href="box.html">Box</a>
+      <a href="collection.html">Collection</a>
+      <a href="stir.html">Stir</a>
+      <a href="spill.html">Spill</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero-eyebrow">A website about</p>
+      <h2 class="hero-title">
+        Food
+        <em>Scandals</em>
+      </h2>
+      <p class="hero-subtitle">Peruse profiles of delicious foods and the drama they've endured.</p>
+      <div class="scroll-cue" aria-hidden="true">
+        <div class="scroll-arrow"></div>
+        <span>explore</span>
+      </div>
+    </section>
+
+    <!-- THREE OPTIONS -->
+    <section class="options-section">
+      <p class="options-label">Three ways to explore the scandals</p>
+
+      <div class="options-grid">
+
+        <!-- 1. Debacle Box -->
+        <a href="box.html" class="option-card">
+          <svg class="option-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 32 L68 32 Q72 32 72 38 L69 66 Q68 70 64 70 L16 70 Q12 70 11 66 L8 38 Q8 32 12 32 Z"
+                  fill="#9c5520" stroke="#7a3d10" stroke-width="1.5"/>
+            <rect x="8" y="26" width="64" height="10" rx="3" fill="#b05e26" stroke="#7a3d10" stroke-width="1"/>
+            <rect x="8" y="14" width="64" height="16" rx="3" fill="#c47030" stroke="#7a3d10" stroke-width="1"/>
+            <rect x="22" y="54" width="36" height="10" rx="1" fill="none" stroke="#c9932a" stroke-width="1"/>
+            <line x1="26" y1="59" x2="54" y2="59" stroke="#c9932a" stroke-width="0.8"/>
+            <rect x="20" y="26" width="12" height="7" rx="1" fill="#fffef9" stroke="#d4c9b0" stroke-width="0.8"/>
+            <rect x="34" y="26" width="12" height="7" rx="1" fill="#fffef9" stroke="#d4c9b0" stroke-width="0.8"/>
+            <rect x="48" y="26" width="12" height="7" rx="1" fill="#fffef9" stroke="#d4c9b0" stroke-width="0.8"/>
+          </svg>
+          <p class="option-number">Option 01</p>
+          <p class="option-title">The Debacle Box</p>
+          <p class="option-desc">Open the box and flip through index cards, one food at a time.</p>
+          <span class="option-cta">Open the box ↗</span>
+        </a>
+
+        <!-- 2. Stir the Pot -->
+        <a href="stir.html" class="option-card">
+          <svg class="option-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="4" y="28" width="12" height="8" rx="4" fill="#7a3d10" stroke="#5a2d08" stroke-width="1"/>
+            <rect x="64" y="28" width="12" height="8" rx="4" fill="#7a3d10" stroke="#5a2d08" stroke-width="1"/>
+            <path d="M14 30 L66 30 Q70 30 70 36 L67 62 Q66 66 62 67 L18 67 Q14 66 13 62 L10 36 Q10 30 14 30 Z"
+                  fill="#9c5520" stroke="#7a3d10" stroke-width="1.5"/>
+            <rect x="10" y="24" width="60" height="10" rx="3" fill="#b05e26" stroke="#7a3d10" stroke-width="1"/>
+            <ellipse cx="40" cy="30" rx="28" ry="5" fill="#8b6914" opacity="0.8"/>
+            <circle cx="32" cy="46" r="2.5" fill="#c9932a" opacity="0.7"/>
+            <circle cx="40" cy="50" r="1.8" fill="#c9932a" opacity="0.5"/>
+            <circle cx="50" cy="45" r="2.5" fill="#c9932a" opacity="0.7"/>
+            <rect x="38" y="6" width="4" height="28" rx="2" fill="#d4a857" stroke="#b8891a" stroke-width="0.8"/>
+            <ellipse cx="40" cy="36" rx="5" ry="3.5" fill="#e8c06a" stroke="#b8891a" stroke-width="0.8"/>
+            <path d="M28 18 Q26 13 28 8" fill="none" stroke="#c4a882" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <path d="M40 15 Q38 10 40 5" fill="none" stroke="#c4a882" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <path d="M52 18 Q50 13 52 8" fill="none" stroke="#c4a882" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+          <p class="option-number">Option 02</p>
+          <p class="option-title">Stir the Pot</p>
+          <p class="option-desc">Click the pot to stir up a random scandal from the collection.</p>
+          <span class="option-cta">Start stirring ↗</span>
+        </a>
+
+        <!-- 3. Corkboard Collection -->
+        <a href="collection.html" class="option-card">
+          <svg class="option-icon" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="4" y="8" width="72" height="64" rx="3" fill="#c4924a" stroke="#8b5e23" stroke-width="2"/>
+            <circle cx="12" cy="16" r="1.2" fill="rgba(100,60,10,0.2)"/>
+            <circle cx="25" cy="22" r="1"   fill="rgba(100,60,10,0.15)"/>
+            <circle cx="60" cy="14" r="1.2" fill="rgba(100,60,10,0.2)"/>
+            <circle cx="70" cy="30" r="1"   fill="rgba(100,60,10,0.15)"/>
+            <circle cx="8"  cy="55" r="1.2" fill="rgba(100,60,10,0.2)"/>
+            <circle cx="72" cy="60" r="1"   fill="rgba(100,60,10,0.15)"/>
+            <g transform="rotate(-4 28 38)">
+              <rect x="14" y="24" width="28" height="20" rx="1.5" fill="#fffef9" stroke="#d4c9b0" stroke-width="0.8"/>
+              <rect x="14" y="24" width="28" height="5"  rx="1.5" fill="#b8441a"/>
+              <line x1="14" y1="32" x2="42" y2="32" stroke="#e8e0d0" stroke-width="0.6"/>
+              <line x1="14" y1="36" x2="42" y2="36" stroke="#e8e0d0" stroke-width="0.6"/>
+              <circle cx="28" cy="24" r="2.5" fill="#c0392b"/>
+            </g>
+            <g transform="rotate(3 52 42)">
+              <rect x="38" y="30" width="28" height="20" rx="1.5" fill="#fffef9" stroke="#d4c9b0" stroke-width="0.8"/>
+              <rect x="38" y="30" width="28" height="5"  rx="1.5" fill="#b8441a"/>
+              <line x1="38" y1="38" x2="66" y2="38" stroke="#e8e0d0" stroke-width="0.6"/>
+              <line x1="38" y1="42" x2="66" y2="42" stroke="#e8e0d0" stroke-width="0.6"/>
+              <circle cx="52" cy="30" r="2.5" fill="#2980b9"/>
+            </g>
+            <g transform="rotate(-2 35 60)">
+              <rect x="20" y="50" width="28" height="18" rx="1.5" fill="#fffef9" stroke="#d4c9b0" stroke-width="0.8"/>
+              <rect x="20" y="50" width="28" height="5"  rx="1.5" fill="#b8441a"/>
+              <line x1="20" y1="58" x2="48" y2="58" stroke="#e8e0d0" stroke-width="0.6"/>
+              <circle cx="34" cy="50" r="2.5" fill="#6c5ce7"/>
+            </g>
+          </svg>
+          <p class="option-number">Option 03</p>
+          <p class="option-title">The Collection</p>
+          <p class="option-desc">Browse all the debacle files pinned up on the corkboard.</p>
+          <span class="option-cta">Browse the board ↗</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <p>Website made by comedian, <a href="about.html">Sidikha Ashraf</a>.</p>
+  </footer>
+
 </body>
 </html>
-				
