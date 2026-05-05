@@ -113,25 +113,91 @@
 
   <script>
     // ── ALL SCANDALS (one entry per scandal link across all cards) ──
-    const scandals = [
-      { food: "Apple",          text: "Someone ate an apple and therefore we are all aware of the human capability to sin.",                                                                                     url: "https://en.wikipedia.org/wiki/Adam_and_Eve" },
-      { food: "Congee",         text: "A White woman claimed she modernized congee for the western palate.",                                                                                                     url: "https://www.nbcnews.com/news/asian-america/white-woman-making-improved-congee-apologizes-continues-sales-n1274718" },
-      { food: "Cookie",         text: "Someone gave this mouse a cookie and chaos ensued. Who fed that mouse? I'd like to speak with them.",                                                                     url: "https://en.wikipedia.org/wiki/If_You_Give_a_Mouse_a_Cookie" },
-      { food: "Chowder",        text: "Somebody spiked the chowder on the Titanic set with PCP. One of the greatest mysteries in film history.",                                                                url: "https://www.theguardian.com/lifeandstyle/2024/apr/16/the-titanic-drug-poisoning-is-one-of-the-greatest-mysteries-in-film-history-about-to-be-solved" },
-      { food: "Cheesecake",     text: "Was New York Cheesecake invented in Florida? A cast of characters debates in court.",                                                                                     url: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html" },
-      { food: "Milkshake",      text: "A Shake Shack manager sued cops who claimed he tainted their milkshakes.",                                                                                                url: "https://www.grubstreet.com/2021/06/shake-shack-manager-sues-cops-over-tainted-milkshake-claims.html" },
-      { food: "Milkshake",      text: "Apparently this girl's milkshake brings all the boys to the yard and they're saying it's better than yours.",                                                             url: "https://youtu.be/pGL2rytTraA?si=IuaoA7XlwFd0CGP6" },
-      { food: "Molasses",       text: "A lot of people died because of this Massachusetts molasses flood. RIP.",                                                                                                 url: "https://en.wikipedia.org/wiki/Great_Molasses_Flood" },
-      { food: "Milk",           text: "Don't cry over spilled milk they say — but how many kids actually cry about spilled milk in a year? A data visualization only I asked for and will never get.",          url: "https://en.wikipedia.org/wiki/It_Looked_Like_Spilt_Milk" },
-      { food: "Curry Leaves",   text: "Scholarly research on the racialization of curry leaves and South Asian ingredients in the Western world.",                                                               url: "https://escholarship.org/uc/item/7hr5p0fj" },
-      { food: "Mustard Oil",    text: "Scholarly article that includes info on the racialization of mustard oil.",                                                                                               url: "https://escholarship.org/uc/item/7hr5p0fj" },
-      { food: "Turmeric",       text: "Researchers tried to patent turmeric — like as if a culture hadn't been using it for thousands of years already.",                                                        url: "https://escholarship.org/uc/item/7hr5p0fj" },
-      { food: "Salsa",          text: "IBS is not a crime, yet this man tried to sue Los Tacos No. 1 for not putting a spicy warning on the menu.",                                                             url: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce" },
-      { food: "Subway Tuna",    text: "A lawsuit claimed Subway's tuna sandwiches contained no actual tuna. A lab could not identify any tuna DNA.",                                                             url: "https://www.nbcnews.com/news/us-news/lawsuit-claims-subway-s-tuna-sandwiches-contain-no-tuna-n1256181" },
-      { food: "Pizza",          text: "Theories around Chuck E. Cheese's suspiciously uneven, mismatched pizza slices.",                                                                                         url: "https://www.reddit.com/r/conspiracytheories/comments/apo5rg/the_chuck_e_cheese_conspiracy/" },
-      { food: "Tomatoes",       text: "Not a murder scene — just a highway full of crushed tomatoes that fell out of a truck.",                                                                                  url: "https://www.nytimes.com/2022/08/29/us/tomato-truck-crash-california.html" },
-      { food: "Basmati Rice",   text: "A lengthy, hilarious lawsuit over who really owns the name basmati rice.",                                                                                                url: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html" },
-    ];
+const scandals = [
+  { food: "Apple",
+    text: "Someone ate an apple and therefore we are all aware of the human capability to sin.",
+    url: "https://en.wikipedia.org/wiki/Adam_and_Eve" },
+
+  { food: "Banana",
+    text: "In Malay folklore, a vengeful spirit in the guise of a beautiful woman is associated with banana plants.",
+    url: "https://en.wikipedia.org/wiki/Kuntilanak" },
+  { food: "Banana",
+    text: "In Thai folklore, a spirit named Nang Tani inhabits some wild banana plants.",
+    url: "https://en.wikipedia.org/wiki/Nang_Tani" },
+  { food: "Banana",
+    text: "There is a drama/romance manhwa called 'Banana Scandal' that was released in 2019 and illustrated by Dolsha.",
+    url: "https://yaoi.fandom.com/wiki/Banana_Scandal" },
+  { food: "Banana",
+    text: "The imperialism behind the United Fruit Company's presence in Colombia is a prime example of how a multinational corporation can wield power over governments.",
+    url: "https://hir.harvard.edu/the-dark-side-of-bananas-imperialism-non-state-actors-and-power/" },
+
+  { food: "Basmati Rice",
+    text: "A London-native, turned-Texan, crossed basmati with American long-grain rice to create Texmati, which outraged South Asians, because the guy could now patent and profit off varieties of basmati rice, a standard staple in South Asian cuisine for generations.",
+    url: "https://www.thekitchn.com/who-owns-basmati-texmati-23153188" },
+
+  { food: "Cheesecake",
+    text: "Was New York Cheesecake invented in Florida? A cast of characters debate in court.",
+    url: "https://www.nytimes.com/2006/05/09/nyregion/09juniors.html" },
+
+  { food: "Chowder",
+    text: "Somebody spiked the chowder on the Titanic set with PCP.",
+    url: "https://www.theguardian.com/lifeandstyle/2024/apr/16/the-titanic-drug-poisoning-is-one-of-the-greatest-mysteries-in-film-history-about-to-be-solved" },
+
+  { food: "Congee",
+    text: "Some White lady claimed she modernized congee for the western palate. That's not cute.",
+    url: "https://www.nbcnews.com/news/asian-america/white-woman-making-improved-congee-apologizes-continues-sales-n1274718" },
+
+  { food: "Cookie",
+    text: "Someone gave this mouse a cookie and chaos ensued. Who fed that mouse? I'd like to speak with them.",
+    url: "https://en.wikipedia.org/wiki/If_You_Give_a_Mouse_a_Cookie" },
+
+  { food: "Curry Leaves",
+    text: "Scholarly research on the racialization of curry leaves.",
+    url: "https://escholarship.org/uc/item/7hr5p0fj" },
+
+  { food: "Milk",
+    text: "Don't cry over spilled milk they say — but how many kids actually cry about spilled milk in a year? A data visualization only I asked for and will never get.",
+    url: "https://en.wikipedia.org/wiki/It_Looked_Like_Spilt_Milk" },
+
+  { food: "Milkshake",
+    text: "Apparently this girl's milkshake brings all the boys to the yard and they're saying it's better than yours.",
+    url: "https://youtu.be/pGL2rytTraA?si=IuaoA7XlwFd0CGP6" },
+  { food: "Milkshake",
+    text: "A Shake Shack manager sued cops who claimed he tainted their milkshakes.",
+    url: "https://www.grubstreet.com/2021/06/shake-shack-manager-sues-cops-over-tainted-milkshake-claims.html" },
+
+  { food: "Molasses",
+    text: "Boston takes the tragedy of the Molasses flood seriously, as they should. A lot of people died.",
+    url: "https://en.wikipedia.org/wiki/Great_Molasses_Flood" },
+
+  { food: "Mustard Oil",
+    text: "While the US FDA labels mustard oil unfit for human consumption, Amazon circumvents that by selling it with contradictions that further marginalize a key ingredient in Bengali cuisine.",
+    url: "https://escholarship.org/uc/item/7hr5p0fj" },
+
+  { food: "Pizza",
+    text: "Theories around Chuck E. Cheese's suspiciously uneven, mismatched pizza slices.",
+    url: "https://www.reddit.com/r/conspiracytheories/comments/apo5rg/the_chuck_e_cheese_conspiracy/" },
+
+  { food: "Salsa",
+    text: "IBS is not a crime, yet this white guy tried to sue Los Tacos No. 1 for not putting a spicy warning on the menu.",
+    url: "https://www.theguardian.com/us-news/2026/mar/16/judge-dismisses-lawsuit-new-york-taqueria-sauce" },
+
+  { food: "Subway Bread",
+    text: "The sugar content in Subway bread was so high, an Irish court classified it as technically a confectionary.",
+    url: "https://www.theguardian.com/world/2020/oct/01/irish-court-rules-subway-bread-is-not-bread" },
+
+  { food: "Subway Tuna",
+    text: "No tuna DNA was found in the Subway tuna sandwich — a particularly devastating revelation for Muslim Americans who relied on it as one of the few halal fast food options.",
+    url: "https://www.nbcnews.com/news/us-news/lawsuit-claims-subway-s-tuna-sandwiches-contain-no-tuna-n1256181" },
+
+  { food: "Tomatoes",
+    text: "Not a murder scene — just a highway full of crushed tomatoes that fell out of a truck.",
+    url: "https://www.nytimes.com/2022/08/29/us/tomato-truck-crash-california.html" },
+
+  { food: "Turmeric",
+    text: "Researchers tried to patent turmeric, like as if a culture hadn't been using it for thousands of years already.",
+    url: "https://escholarship.org/uc/item/7hr5p0fj" },
+];
 
     let lastIndex = -1;
     let stirCount = 0;
